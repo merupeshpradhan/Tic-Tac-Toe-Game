@@ -8,13 +8,13 @@ This project features a clean UI, smooth gameplay experience, winner detection, 
 
 # 🚀 Live Demo
 
-👉 live project link here
+👉 [live project link here](https://tictactoe.rupeshpradhan.com/)
 
 ---
 
 # 📦 GitHub Repository
 
-👉 GitHub repository link here
+👉 [GitHub repository link here](https://github.com/merupeshpradhan/Tic-Tac-Toe-Game)
 
 ---
 
