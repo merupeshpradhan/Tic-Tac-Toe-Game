@@ -7,7 +7,11 @@ import Status from "./components/Status";
 import { checkWinner } from "./utils/gameLogic";
 
 export default function App() {
-  const [board, setBoard] = useState<(string | null)[]>(Array(9).fill(null));
+  const [board, setBoard] = useState<(string | null)[]>(() => {
+    const savedBoard = localStorage.getItem("board");
+
+    return savedBoard ? JSON.parse(savedBoard) : Array(9).fill(null);
+  });
 
   const [xTurn, setXTurn] = useState(true);
 
@@ -25,20 +29,23 @@ export default function App() {
     setXTurn(!xTurn);
   };
 
+  // Winner & Draw Check
   useEffect(() => {
-  const gameWinner = checkWinner(board);
+    const gameWinner = checkWinner(board);
 
-  if (gameWinner) {
-    setWinner(gameWinner);
+    if (gameWinner) {
+      setWinner(gameWinner);
 
-    toast.success(`🎉 Player ${gameWinner} Wins!`);
-  } else if (
-    !gameWinner &&
-    board.every((cell) => cell !== null)
-  ) {
-    toast.error("🤝 It's a Draw!");
-  }
-}, [board]);
+      toast.success(`🎉 Player ${gameWinner} Wins!`);
+    } else if (!gameWinner && board.every((cell) => cell !== null)) {
+      toast.error("🤝 It's a Draw!");
+    }
+  }, [board]);
+
+  // Save board in localStorage
+  useEffect(() => {
+    localStorage.setItem("board", JSON.stringify(board));
+  }, [board]);
 
   const resetGame = () => {
     setBoard(Array(9).fill(null));
@@ -46,6 +53,8 @@ export default function App() {
     setXTurn(true);
 
     setWinner(null);
+
+    localStorage.removeItem("board");
 
     toast("🔄 Game reset!");
   };
